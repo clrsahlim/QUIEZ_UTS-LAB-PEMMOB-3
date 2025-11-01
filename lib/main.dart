@@ -13,7 +13,6 @@ class QuizApp extends StatelessWidget {
     return MaterialApp(
       title: 'QUIEZ App',
       theme: ThemeData(
-        primarySwatch: Colors.red,
         fontFamily: 'Merriweather',
       ),
       home: const SplashScreen(),
