@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/category_card.dart';
 import '../utils/app_colors.dart';
+import 'quiz_screen.dart';
 
 class CategoryScreen extends StatefulWidget {
   const CategoryScreen({super.key});
@@ -33,6 +34,16 @@ class _CategoryScreenState extends State<CategoryScreen> {
       );
       return;
     }
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => QuizScreen(
+          userName: _nameController.text.trim(),
+          category: _selectedCategory!,
+        ),
+      ),
+    );
   }
 
   @override
@@ -112,9 +123,11 @@ class _CategoryScreenState extends State<CategoryScreen> {
                   TextField(
                     controller: _nameController,
                     keyboardType: TextInputType.text,
+                    maxLength: 15,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: const Color(0x80FFFFFF),
+                      counterText: '',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: const BorderSide(color: AppColors.red),
@@ -191,14 +204,14 @@ class _CategoryScreenState extends State<CategoryScreen> {
                             onTap: () => setState(() => _selectedCategory = 'Guess the Song'),
                           ),
                           CategoryCard(
-                            title: 'Guess the\nArtist',
+                            title: 'Guess the\nSinger',
                             imagePath: 'assets/images/guesstheartist.png',
-                            color: _selectedCategory == 'Guess the Artist'
+                            color: _selectedCategory == 'Guess the Singer'
                                 ? AppColors.darkerblue
                                 : AppColors.blue,
                             textColor: AppColors.black,
-                            isSelected: _selectedCategory == 'Guess the Artist',
-                            onTap: () => setState(() => _selectedCategory = 'Guess the Artist'),
+                            isSelected: _selectedCategory == 'Guess the Singer',
+                            onTap: () => setState(() => _selectedCategory = 'Guess the Singer'),
                           ),
                         ],
                       ),
@@ -210,7 +223,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     child: ElevatedButton(
                       onPressed: _startQuiz,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.green,
+                        backgroundColor: AppColors.darkergreen,
                         padding: EdgeInsets.symmetric(vertical: screenHeight * 0.015),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(50),
