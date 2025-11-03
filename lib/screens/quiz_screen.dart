@@ -5,6 +5,7 @@ import '../data/quiz_data.dart';
 import '../widgets/progress_bar.dart';
 import '../widgets/answer_button.dart';
 import '../utils/app_colors.dart';
+import '../screens/score_screen.dart';
 
 class QuizScreen extends StatefulWidget {
   final String userName;
@@ -66,7 +67,7 @@ class _QuizScreenState extends State<QuizScreen> {
         currentQuestionIndex++;
       });
     } else {
-      // Navigate to result screen
+      _showResults();
     }
   }
 
@@ -76,6 +77,20 @@ class _QuizScreenState extends State<QuizScreen> {
         currentQuestionIndex--;
       });
     }
+  }
+
+  void _showResults() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (_) => ScoreScreen(
+          userName: widget.userName,
+          category: widget.category,
+          results: results,
+          totalQuestions: questions.length,
+        ),
+      ),
+    );
   }
 
   @override
