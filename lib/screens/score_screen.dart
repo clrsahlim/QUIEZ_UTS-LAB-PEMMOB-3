@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quiez_clarissa_labpm3/screens/result_details_screen.dart';
 import '../models/quiz_result.dart';
 import '../widgets/circular_progress.dart';
 import 'category_screen.dart';
@@ -153,6 +154,16 @@ class ScoreScreen extends StatelessWidget {
                                 SizedBox(height: screenHeight * 0.015),
                                 ElevatedButton(
                                   onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => ResultDetailsScreen(
+                                          userName: userName,
+                                          category: category,
+                                          results: results,
+                                        ),
+                                      ),
+                                    );
                                   },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: AppColors.yellow,
