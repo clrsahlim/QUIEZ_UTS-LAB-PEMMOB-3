@@ -201,8 +201,7 @@ class QuizData {
             'All of the above'
           ],
           correctAnswer: 3,
-          imageUrl: 'assets/images/bts.png',
-        ),
+                  ),
         QuizQuestion(
           question: '“I’m in love with the shape of you, we push and pull like a magnet do.”',
           options: [
