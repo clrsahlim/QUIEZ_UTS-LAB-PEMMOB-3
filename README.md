@@ -10,11 +10,12 @@ Asset Credit:
 2. Icon diambil dari Flaticon
 
 Screenshot/Video Aplikasi:
-
+https://drive.google.com/drive/folders/1X5mECnlgyNKrcr89AGYP6JMDYOKlfSl-?usp=sharing
 
 
 Link prototype Aplikasi:
 https://www.figma.com/proto/uRxW0u0HOQnfK69gIeG9mp/QUIEZ_Prototype_PM3_Clarissa-Halim?node-id=0-1&t=KBUtfNUU8zrU0Db8-1 
+
 
 
 
