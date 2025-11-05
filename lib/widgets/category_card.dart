@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../utils/responsive_utils.dart';
 
 class CategoryCard extends StatelessWidget {
   final String title;
@@ -20,14 +21,27 @@ class CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final cardSize = (screenWidth - 60) / 2;
+    final responsive = ResponsiveUtils(context);
+
+    // Hitung card size berdasarkan orientation
+    double cardWidth;
+    double cardHeight;
+
+    if (responsive.isLandscape) {
+      // Landscape: card lebih kecil dan proporsional dengan tinggi layar
+      cardWidth = responsive.screenHeight * 0.35;
+      cardHeight = responsive.screenHeight * 0.3;
+    } else {
+      // Portrait: seperti biasa
+      cardWidth = (responsive.screenWidth - 60) / 2;
+      cardHeight = cardWidth * 0.85;
+    }
 
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: cardSize,
-        height: cardSize * 0.85,
+        width: cardWidth,
+        height: cardHeight,
         decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.circular(16),
@@ -45,23 +59,32 @@ class CategoryCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: cardSize * 0.02),
+            SizedBox(height: cardHeight * 0.02),
             Image.asset(
               imagePath,
-              width: cardSize * 0.3,
-              height: cardSize * 0.3,
+              width: cardHeight * 0.35,
+              height: cardHeight * 0.35,
               fit: BoxFit.contain,
             ),
-            SizedBox(height: cardSize * 0.05),
-            Text(
-              title,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: screenWidth * 0.045,
-                fontWeight: FontWeight.bold,
-                color: textColor,
+            SizedBox(height: cardHeight * 0.05),
+            Flexible(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: cardWidth * 0.05),
+                child: Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: responsive.fontSize(
+                      mobile: 0.045,
+                      landscape: 0.035,
+                    ),
+                    fontWeight: FontWeight.bold,
+                    color: textColor,
+                  ),
+                ),
               ),
             ),
+            SizedBox(height: cardHeight * 0.02),
           ],
         ),
       ),

@@ -25,7 +25,7 @@ class _QuizScreenState extends State<QuizScreen> {
   late List<QuizQuestion> questions;
   int currentQuestionIndex = 0;
   List<QuizResult> results = [];
-  Map<int, int> selectedAnswers = {}; // Simpan jawaban per question index
+  Map<int, int> selectedAnswers = {};
 
   @override
   void initState() {
@@ -38,7 +38,6 @@ class _QuizScreenState extends State<QuizScreen> {
       selectedAnswers[currentQuestionIndex] = selectedAnswer;
     });
 
-    // Update atau tambah result
     final existingResultIndex = results.indexWhere(
           (result) => result.questionIndex == currentQuestionIndex,
     );
@@ -97,8 +96,13 @@ class _QuizScreenState extends State<QuizScreen> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+    final isLandscape = screenWidth > screenHeight;
     final question = questions[currentQuestionIndex];
-    final selectedAnswerIndex = selectedAnswers[currentQuestionIndex]; // Ambil jawaban untuk soal ini
+    final selectedAnswerIndex = selectedAnswers[currentQuestionIndex];
+
+    // Responsive sizing
+    final baseFontSize = isLandscape ? screenHeight : screenWidth;
+    final baseSpacing = isLandscape ? screenHeight : screenWidth;
 
     final List<Color> answerColors = [
       AppColors.yellow,
@@ -121,150 +125,161 @@ class _QuizScreenState extends State<QuizScreen> {
                   bottomRight: Radius.circular(20),
                 ),
               ),
-              padding: EdgeInsets.all(screenWidth * 0.05),
+              padding: EdgeInsets.symmetric(
+                horizontal: baseSpacing * 0.04,
+                vertical: isLandscape ? screenHeight * 0.012 : screenHeight * 0.02,
+              ),
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       IconButton(
                         icon: const Icon(Icons.arrow_back, color: Colors.white),
+                        iconSize: isLandscape ? 24 : 24,
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints(),
                         onPressed: () => Navigator.pop(context),
                       ),
                       IconButton(
                         icon: const Icon(Icons.home, color: Colors.white),
+                        iconSize: isLandscape ? 24 : 24,
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints(),
                         onPressed: () => Navigator.popUntil(context, (route) => route.isFirst),
                       ),
                     ],
                   ),
-                  SizedBox(height: screenHeight * 0.02),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  SizedBox(height: isLandscape ? screenHeight * 0.008 : screenHeight * 0.02),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              widget.userName,
-                              style: TextStyle(
-                                color: AppColors.beige,
-                                fontSize: screenWidth * 0.045,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: screenWidth * 0.03,
-                                vertical: screenHeight * 0.005,
-                              ),
-                              decoration: BoxDecoration(
-                                color: AppColors.pink,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Text(
-                                widget.category,
-                                style: TextStyle(
-                                  color: AppColors.red,
-                                  fontSize: screenWidth * 0.03,
-                                  fontWeight: FontWeight.w800,
-                                ),
-                              ),
-                            ),
-                          ],
+                      Flexible(
+                        child: Text(
+                          widget.userName,
+                          style: TextStyle(
+                            color: AppColors.beige,
+                            fontSize: baseFontSize * 0.038,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      SizedBox(height: screenHeight * 0.015),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
-                        child: ProgressBar(
-                          currentQuestion: currentQuestionIndex + 1,
-                          totalQuestions: questions.length,
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: baseSpacing * 0.025,
+                          vertical: screenHeight * 0.004,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.pink,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          widget.category,
+                          style: TextStyle(
+                            color: AppColors.red,
+                            fontSize: baseFontSize * 0.028,
+                            fontWeight: FontWeight.w800,
+                          ),
                         ),
                       ),
                     ],
+                  ),
+                  SizedBox(height: isLandscape ? screenHeight * 0.01 : screenHeight * 0.015),
+                  ProgressBar(
+                    currentQuestion: currentQuestionIndex + 1,
+                    totalQuestions: questions.length,
                   ),
                 ],
               ),
             ),
-            SizedBox(height: screenHeight * 0.015),
+
             Expanded(
               child: SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.all(screenWidth * 0.05),
-                  child: Column(
-                    children: [
-                      Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.all(screenWidth * 0.05),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(16),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              blurRadius: 10,
-                              offset: const Offset(0, 5),
+                padding: EdgeInsets.symmetric(
+                  horizontal: baseSpacing * 0.04,
+                  vertical: isLandscape ? screenHeight * 0.04 : baseSpacing * 0.04,
+                ),
+                child: Column(
+                  children: [
+                    // Question Box
+                    Container(
+                      width: double.infinity,
+                      constraints: BoxConstraints(
+                        maxWidth: isLandscape ? screenWidth * 0.8 : double.infinity,
+                      ),
+                      padding: EdgeInsets.all(baseSpacing * 0.04),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 10,
+                            offset: const Offset(0, 5),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          Text(
+                            question.question,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: baseFontSize * 0.038,
+                              fontWeight: FontWeight.bold,
                             ),
-                          ],
-                        ),
-                        child: Column(
-                          children: [
-                            Text(
-                              question.question,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: screenWidth * 0.045,
-                                fontWeight: FontWeight.bold,
+                          ),
+                          if (question.imageUrl != null) ...[
+                            SizedBox(height: screenHeight * 0.01),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.asset(
+                                question.imageUrl!,
+                                width: isLandscape ? screenHeight * 0.35 : screenWidth * 0.45,
+                                height: isLandscape ? screenHeight * 0.3 : screenWidth * 0.32,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Container(
+                                    width: isLandscape ? screenHeight * 0.35 : screenWidth * 0.45,
+                                    height: isLandscape ? screenHeight * 0.3 : screenWidth * 0.32,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      color: Colors.grey[300],
+                                    ),
+                                    child: const Icon(Icons.image, size: 50),
+                                  );
+                                },
                               ),
                             ),
-                            if (question.imageUrl != null) ...[
-                              SizedBox(height: screenHeight * 0.01),
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: Image.asset(
-                                  question.imageUrl!,
-                                  width: screenWidth * 0.45,
-                                  height: screenWidth * 0.32,
-                                  fit: BoxFit.cover,
-                                  errorBuilder: (context, error, stackTrace) {
-                                    return Container(
-                                      width: screenWidth * 0.4,
-                                      height: screenWidth * 0.4,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(12),
-                                        color: Colors.grey[300],
-                                      ),
-                                      child: const Icon(Icons.image, size: 50),
-                                    );
-                                  },
-                                ),
-                              ),
-                            ],
                           ],
-                        ),
+                        ],
                       ),
-                      SizedBox(height: screenHeight * 0.03),
-                      ...List.generate(
-                        question.options.length,
-                            (index) => AnswerButton(
-                          label: '${String.fromCharCode(65 + index)}.',
-                          answer: question.options[index],
-                          color: answerColors[index % answerColors.length],
-                          isSelected: selectedAnswerIndex == index,
-                          onTap: () => _answerQuestion(index),
-                        ),
+                    ),
+                    SizedBox(height: isLandscape ? screenHeight * 0.04 : screenHeight * 0.03),
+
+                    // Answer Buttons
+                    ...List.generate(
+                      question.options.length,
+                          (index) => AnswerButton(
+                        label: '${String.fromCharCode(65 + index)}.',
+                        answer: question.options[index],
+                        color: answerColors[index % answerColors.length],
+                        isSelected: selectedAnswerIndex == index,
+                        onTap: () => _answerQuestion(index),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
+
+            // Navigation Buttons
             Container(
               padding: EdgeInsets.symmetric(
-                horizontal: screenWidth * 0.05,
-                vertical: screenHeight * 0.025,
+                horizontal: baseSpacing * 0.04,
+                vertical: isLandscape ? screenHeight * 0.012 : screenHeight * 0.02,
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -274,8 +289,8 @@ class _QuizScreenState extends State<QuizScreen> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.grey,
                       padding: EdgeInsets.symmetric(
-                        horizontal: screenWidth * 0.08,
-                        vertical: screenHeight * 0.015,
+                        horizontal: baseSpacing * 0.06,
+                        vertical: screenHeight * 0.014,
                       ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
@@ -284,7 +299,7 @@ class _QuizScreenState extends State<QuizScreen> {
                     child: Text(
                       'Previous',
                       style: TextStyle(
-                        fontSize: screenWidth * 0.04,
+                        fontSize: baseFontSize * 0.035,
                         color: Colors.white,
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w700,
@@ -297,8 +312,8 @@ class _QuizScreenState extends State<QuizScreen> {
                       backgroundColor: AppColors.red,
                       disabledBackgroundColor: Colors.grey[400],
                       padding: EdgeInsets.symmetric(
-                        horizontal: screenWidth * 0.08,
-                        vertical: screenHeight * 0.015,
+                        horizontal: baseSpacing * 0.06,
+                        vertical: screenHeight * 0.014,
                       ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
@@ -307,7 +322,7 @@ class _QuizScreenState extends State<QuizScreen> {
                     child: Text(
                       'Next',
                       style: TextStyle(
-                        fontSize: screenWidth * 0.04,
+                        fontSize: baseFontSize * 0.035,
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w700,
                         color: Colors.white,

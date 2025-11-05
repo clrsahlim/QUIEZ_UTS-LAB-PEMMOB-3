@@ -52,27 +52,34 @@ class AnswerButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final isLandscape = screenWidth > screenHeight;
+
+    final baseFontSize = isLandscape ? screenHeight : screenWidth;
+    final baseSpacing = isLandscape ? screenHeight : screenWidth;
+
     final darkerColor = _getDarkerColor(color);
     final textColor = _getTextColor(color);
     final circleColor = _getCircleColor(color);
     final labelColor = _getLabelColor(color);
 
     return Padding(
-      padding: EdgeInsets.only(bottom: screenWidth * 0.04),
+      padding: EdgeInsets.only(bottom: isLandscape ? baseSpacing * 0.02 : baseSpacing * 0.03),
       child: GestureDetector(
         onTap: onTap,
         child: Container(
           width: double.infinity,
+          constraints: BoxConstraints(
+            maxWidth: isLandscape ? screenWidth * 0.8 : double.infinity,
+          ),
           padding: EdgeInsets.symmetric(
-            horizontal: screenWidth * 0.04,
-            vertical: screenWidth * 0.03,
+            horizontal: baseSpacing * 0.035,
+            vertical: baseSpacing * 0.025,
           ),
           decoration: BoxDecoration(
             color: color,
             borderRadius: BorderRadius.circular(12),
-            border: isSelected
-                ? Border.all(color: Colors.white, width: 3)
-                : null,
+            border: isSelected ? Border.all(color: Colors.white, width: 3) : null,
             boxShadow: [
               BoxShadow(
                 color: darkerColor,
@@ -85,8 +92,8 @@ class AnswerButton extends StatelessWidget {
           child: Row(
             children: [
               Container(
-                width: screenWidth * 0.08,
-                height: screenWidth * 0.08,
+                width: baseFontSize * 0.07,
+                height: baseFontSize * 0.07,
                 decoration: BoxDecoration(
                   color: circleColor,
                   shape: BoxShape.circle,
@@ -97,19 +104,19 @@ class AnswerButton extends StatelessWidget {
                     style: TextStyle(
                       color: labelColor,
                       fontWeight: FontWeight.bold,
-                      fontSize: screenWidth * 0.04,
+                      fontSize: baseFontSize * 0.035,
                       fontFamily: 'Poppins',
                     ),
                   ),
                 ),
               ),
-              SizedBox(width: screenWidth * 0.03),
+              SizedBox(width: baseSpacing * 0.025),
               Expanded(
                 child: Text(
                   answer,
                   style: TextStyle(
                     color: textColor,
-                    fontSize: screenWidth * 0.04,
+                    fontSize: baseFontSize * 0.035,
                     fontWeight: FontWeight.w700,
                     fontFamily: 'Poppins',
                   ),

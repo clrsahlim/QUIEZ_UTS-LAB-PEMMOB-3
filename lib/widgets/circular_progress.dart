@@ -3,12 +3,12 @@ import '../utils/app_colors.dart';
 
 class CircularProgress extends StatelessWidget {
   final int score;
-  final double size;
+  final double? size;
 
   const CircularProgress({
     super.key,
     required this.score,
-    required this.size,
+    this.size,
   });
 
   Color _getProgressColor() {
@@ -23,23 +23,30 @@ class CircularProgress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final isLandscape = screenWidth > screenHeight;
+
+    // Gunakan size yang diberikan atau calculate responsive size
+    final circleSize = size ?? (isLandscape ? screenHeight * 0.35 : screenWidth * 0.35);
+
     return Stack(
       alignment: Alignment.center,
       children: [
         SizedBox(
-          width: size,
-          height: size,
+          width: circleSize,
+          height: circleSize,
           child: CircularProgressIndicator(
             value: score / 100,
-            strokeWidth: size * 0.1,
+            strokeWidth: circleSize * 0.1,
             backgroundColor: Colors.white,
             valueColor: AlwaysStoppedAnimation<Color>(_getProgressColor()),
           ),
         ),
         Container(
-          width: 0.9 * size,
-          height: 0.9 * size,
-          decoration: BoxDecoration(
+          width: 0.9 * circleSize,
+          height: 0.9 * circleSize,
+          decoration: const BoxDecoration(
             shape: BoxShape.circle,
             color: AppColors.beige,
           ),
@@ -47,7 +54,7 @@ class CircularProgress extends StatelessWidget {
             child: Text(
               score.toString(),
               style: TextStyle(
-                fontSize: size * 0.4,
+                fontSize: circleSize * 0.4,
                 fontWeight: FontWeight.w800,
                 color: const Color(0xFFE74C3C),
               ),
