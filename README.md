@@ -14,7 +14,8 @@ https://drive.google.com/drive/folders/1X5mECnlgyNKrcr89AGYP6JMDYOKlfSl-?usp=sha
 
 
 Link prototype Aplikasi:
-https://www.figma.com/proto/uRxW0u0HOQnfK69gIeG9mp/QUIEZ_Prototype_PM3_Clarissa-Halim?node-id=0-1&t=KBUtfNUU8zrU0Db8-1 
+https://www.figma.com/proto/uRxW0u0HOQnfK69gIeG9mp/QUIEZ_Prototype_PM3_Clarissa-Halim?node-id=1020-465&t=MiMIcZ8ffIbfwp4z-1
+
 
 
 
