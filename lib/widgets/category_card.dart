@@ -23,16 +23,13 @@ class CategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final responsive = ResponsiveUtils(context);
 
-    // Hitung card size berdasarkan orientation
     double cardWidth;
     double cardHeight;
 
     if (responsive.isLandscape) {
-      // Landscape: card lebih kecil dan proporsional dengan tinggi layar
       cardWidth = responsive.screenHeight * 0.35;
       cardHeight = responsive.screenHeight * 0.3;
     } else {
-      // Portrait: seperti biasa
       cardWidth = (responsive.screenWidth - 60) / 2;
       cardHeight = cardWidth * 0.85;
     }

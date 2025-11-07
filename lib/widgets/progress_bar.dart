@@ -17,7 +17,6 @@ class ProgressBar extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
     final isLandscape = screenWidth > screenHeight;
 
-    // Gunakan height untuk landscape, width untuk portrait
     final baseFontSize = isLandscape ? screenHeight : screenWidth;
 
     final progress = currentQuestion / totalQuestions;

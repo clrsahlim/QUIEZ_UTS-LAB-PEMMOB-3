@@ -27,7 +27,6 @@ class CircularProgress extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
     final isLandscape = screenWidth > screenHeight;
 
-    // Gunakan size yang diberikan atau calculate responsive size
     final circleSize = size ?? (isLandscape ? screenHeight * 0.35 : screenWidth * 0.35);
 
     return Stack(

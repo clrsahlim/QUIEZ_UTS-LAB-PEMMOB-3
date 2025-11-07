@@ -122,7 +122,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     ),
                     SizedBox(height: responsive.spacing(mobile: 0.005, landscape: 0.008)),
 
-                    // Preparation
                     Center(
                       child: Text(
                         'Preparation',
@@ -137,7 +136,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     ),
                     SizedBox(height: responsive.spacing(mobile: 0.03, landscape: 0.02)),
 
-                    // Your Name Section
                     Row(
                       children: [
                         Icon(
@@ -163,7 +161,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     ),
                     SizedBox(height: responsive.spacing(mobile: 0.01, landscape: 0.02)),
 
-                    // Name TextField
                     TextField(
                       controller: _nameController,
                       keyboardType: TextInputType.text,
@@ -198,7 +195,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     ),
                     SizedBox(height: responsive.spacing(mobile: 0.03, landscape: 0.04)),
 
-                    // Choose Category Section
                     Row(
                       children: [
                         Icon(
@@ -291,7 +287,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     ),
                     SizedBox(height: responsive.spacing(mobile: 0.04, landscape: 0.06)),
 
-                    // Start Quiz Button
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
